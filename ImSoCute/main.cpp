@@ -5,7 +5,7 @@
 #include <iomanip>
 #include "MathHelp.h"
 
-#define AIM_FOV 10
+#define AIM_FOV 10 // TODO config or gui
 
 using namespace hazedumper::netvars;
 using namespace hazedumper::signatures;
@@ -128,7 +128,7 @@ void SetEntityGlow(int entity, int team, int glowObject, int playerTeam) {
 
 	GlowObjectDefinition_t glow = MemClass.readMem<GlowObjectDefinition_t>(glowArray + 0x38 * glowIndex + 0x4);
 
-	//фикс мусора в хп
+	//fix trash in glow
 	glow.r = 0.0;
 	glow.g = 2.0;
 	glow.b = 0.0;
@@ -163,7 +163,6 @@ void HandleGlow() {
 			if (!entityTeam || !entityHp)
 				continue;
 			if (entityTeam != playerTeam) {
-				//std::cout << std::fixed << playerTeam << " " << entityTeam << std::endl;
 				SetEntityGlow(entity, entityTeam, glowObject, playerTeam);
 			}
 		}
@@ -174,6 +173,7 @@ void HandleGlow() {
 void HandleAim() {
 	int pLocal = MemClass.readMem<int>(bClient.dwBase + dwLocalPlayer);
 	int pEngine = MemClass.readMem<int>(bEngine.dwBase + dwClientState);
+
 	int target = getTarget(pLocal, pEngine);/*Get The best target addr*/
 
 	if (!pEngine)
@@ -188,14 +188,13 @@ void HandleAim() {
 
 int main()
 {
-	bool isAimActive = true;
+	bool isAimActive = true; // TODO
+
 	while (!MemClass.Attach("csgo.exe", PROCESS_ALL_ACCESS)) { std::cout << "finding csgo.exe -_-\n";	}
 	std::cout << "by writer :3" << std::endl;
 
 	bClient = MemClass.GetModule("client_panorama.dll");
 	bEngine = MemClass.GetModule("engine.dll");
-
-	//ShowWindow(GetConsoleWindow(), SW_HIDE);
 
 	while (1){
 		int localPlayer = MemClass.readMem<int>(bClient.dwBase + dwLocalPlayer);
@@ -203,12 +202,10 @@ int main()
 			continue;
 
 		int playerTeam = MemClass.readMem<int>(localPlayer + m_iTeamNum);
-		
-		//std::cout << playerTeam << std::endl;
 
 		HandleGlow();
 		if (isAimActive)
-			if (GetAsyncKeyState(VK_LBUTTON))// && GetAsyncKeyState(VK_MENU))
+			if (GetAsyncKeyState(VK_LBUTTON))
 				HandleAim();
 
 		Sleep(1);
