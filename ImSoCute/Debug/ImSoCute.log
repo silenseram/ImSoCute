@@ -1,0 +1,5 @@
+﻿  main.cpp
+C:\Users\Maorus\source\repos\ImSoCute\ImSoCute\main.cpp(108,22): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+C:\Users\Maorus\source\repos\ImSoCute\ImSoCute\main.cpp(109,14): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+C:\Users\Maorus\source\repos\ImSoCute\ImSoCute\main.cpp(119,14): warning C4305: =: усечение из "double" в "float"
+  ImSoCute.vcxproj -> C:\Users\Maorus\source\repos\ImSoCute\Debug\ImSoCute.exe
